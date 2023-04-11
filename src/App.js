@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from "react"
+import "./App.css"
+import AllTasks from "./components/AllTasks"
+import {useTodoContext} from "./provider/TodoProvider"
 
 function App() {
+  const [localTask, setLocalTask] = useState("")
+
+  const {addTodo, todoList} = useTodoContext()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1 id="header">TodoMatic</h1>
+      <div className="card">
+        <div className="new-item">
+          {/* New task input field */}
+          <input
+            id="input-field"
+            type="text"
+            value={localTask}
+            placeholder="Enter new task date here...."
+            onChange={(e) => {
+              setLocalTask(e.target.value)
+            }}
+          />
+
+          {/* Submit button */}
+          <button
+            className="add-button"
+            type="submit"
+            onClick={() => {
+              addTodo(localTask)
+              setLocalTask("")
+            }}>
+            Add
+          </button>
+        </div>
+
+        {/* All tasks */}
+        <AllTasks arr={todoList} />
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
